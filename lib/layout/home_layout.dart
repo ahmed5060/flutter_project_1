@@ -6,6 +6,7 @@ import 'package:flutter_project_1/cubit/app_states.dart';
 
 class HomeLayout extends StatefulWidget {
   final AppCubit cubb;
+
   const HomeLayout({super.key, required this.cubb});
 
   @override
@@ -14,6 +15,7 @@ class HomeLayout extends StatefulWidget {
 
 class _HomeLayoutState extends State<HomeLayout> with WidgetsBindingObserver {
   final String userId = "22010237";
+
   // bool isMe = false;
 
   @override
@@ -46,7 +48,11 @@ class _HomeLayoutState extends State<HomeLayout> with WidgetsBindingObserver {
           elevation: 1,
           title: const Text("ChatApp"),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+            IconButton(
+                onPressed: () {
+                  widget.cubb.changeScreen(3);
+                },
+                icon: const Icon(Icons.search))
           ],
         ),
         body: SizedBox(
@@ -60,12 +66,12 @@ class _HomeLayoutState extends State<HomeLayout> with WidgetsBindingObserver {
                 height: double.infinity,
                 padding: const EdgeInsetsDirectional.only(end: 20, start: 5),
                 decoration: const BoxDecoration(
-                  // border: BorderDirectional(
-                  //     end: BorderSide(
-                  //         style: BorderStyle.none, color: Colors.black)
-                  //         )
+                    // border: BorderDirectional(
+                    //     end: BorderSide(
+                    //         style: BorderStyle.none, color: Colors.black)
+                    //         )
 
-                ),
+                    ),
                 child: Column(
                   children: [
                     SizedBox(
@@ -127,7 +133,7 @@ class _HomeLayoutState extends State<HomeLayout> with WidgetsBindingObserver {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: widget.cubb.pages[widget.cubb.selectedIndex],
                 ),
               ),

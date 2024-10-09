@@ -9,6 +9,7 @@ import 'package:flutter_project_1/models/chat_model.dart';
 import 'package:flutter_project_1/models/message_model.dart';
 import 'package:flutter_project_1/models/user_model.dart';
 import 'package:flutter_project_1/screens/chats/my_chats/my_chasts.dart';
+import 'package:flutter_project_1/screens/search/search_screen.dart';
 import 'package:flutter_project_1/screens/stories/stories_screen.dart';
 import 'package:flutter_project_1/screens/user/user_screen/user_screen.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,6 +39,26 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
+  //search
+  Future<void> searchUsersByName(String name) async {
+    emit(UserSearchLoadingState());
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection("Users")
+          .where('name', isEqualTo: name)
+          .get();
+
+      List<UserModel> users = querySnapshot.docs
+          .map((doc) => UserModel.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
+
+      emit(UserSearchSuccessState(users));
+    } catch (error) {
+      emit(UserSearchFailedState(error.toString()));
+    }
+  }
+
+
   /////////////
   UserModel? currentUser;
   Future<void> getUserData(String userId) {
@@ -61,7 +82,7 @@ class AppCubit extends Cubit<AppStates> {
 
   //////////////
   ///Change Screen (Navigation Bar)
-  final pages = [const MyChasts(), const UserScreen(), StoriesScreen()];
+  final pages = [const MyChasts(), const UserScreen(), StoriesScreen(), SearchPage()];
   int selectedIndex = 0;
   void changeScreen(index) {
     selectedIndex = index;

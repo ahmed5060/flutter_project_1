@@ -1,3 +1,5 @@
+import '../models/user_model.dart';
+
 abstract class AppStates {}
 
 class AppInitState extends AppStates {}
@@ -62,3 +64,15 @@ class UpdateChatWallpapperSuccessState extends AppStates {
 }
 
 class UpdateChatWallpapperFailedState extends AppStates {}
+
+class UserSearchLoadingState extends AppStates {}
+
+class UserSearchSuccessState extends AppStates {
+  final List<UserModel> users;
+  UserSearchSuccessState(this.users);
+}
+
+class UserSearchFailedState extends AppStates {
+  final String error;
+  UserSearchFailedState(this.error);
+}
